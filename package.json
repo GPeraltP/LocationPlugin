@@ -1,5 +1,5 @@
 {
-  "name": "com.gperaltap.locationplugin",
+  "name": "enabled-location-plugin",
   "version": "0.0.1",
   "description": "Plugin to get Location using Google Services",
   "cordova": {

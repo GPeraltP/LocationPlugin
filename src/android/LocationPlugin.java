@@ -41,7 +41,7 @@ public class LocationPlugin extends CordovaPlugin {
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         newCallbackContext = callbackContext;
         if (action.equals("enableGPS")) {
-            cordova.setActivityResultCallback (this); //neccesary to call onActivityResult
+            cordova.setActivityResultCallback (this); //necessary to call onActivityResult
             this.enableGPS();
             return true;
         }
@@ -63,9 +63,8 @@ public class LocationPlugin extends CordovaPlugin {
             @Override
             public void onComplete( Task<LocationSettingsResponse> task) {
                 try {
-                    //When GPS is Active run this code
+                    //When GPS is Active send code 1
                     LocationSettingsResponse response = task.getResult(ApiException.class);
-                    Toast.makeText(cordova.getActivity(), "GPS in ON", Toast.LENGTH_SHORT).show();
                     PluginResult pluginResult = new PluginResult(PluginResult.Status.OK,"1");
                     newCallbackContext.sendPluginResult(pluginResult);
                 }catch (ApiException e){
@@ -97,13 +96,11 @@ public class LocationPlugin extends CordovaPlugin {
             switch (resultCode){
 
                 case Activity.RESULT_OK:
-                    Toast.makeText(cordova.getActivity(),"GPS is Turned on", Toast.LENGTH_SHORT).show();
                     pluginResult = new PluginResult(PluginResult.Status.OK,"2");
                     newCallbackContext.sendPluginResult(pluginResult);
                 break;
 
                 case Activity.RESULT_CANCELED:
-                    Toast.makeText(cordova.getActivity(), "GPS is required to be turned", Toast.LENGTH_SHORT).show();
                     pluginResult = new PluginResult(PluginResult.Status.ERROR,"0");
                     newCallbackContext.sendPluginResult(pluginResult);
                 break;

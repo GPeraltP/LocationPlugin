@@ -13,12 +13,6 @@
 			</feature>
 		</config-file>
 		<config-file parent="/*" target="AndroidManifest.xml">
-			<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-			<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-			<uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
-			<uses-permission android:name="android.permission.READ_PHONE_STATE" />
-			<uses-permission android:name="android.permission.READ_SMS" />
-			<uses-permission android:name="android.permission.INTERNET" />
 		</config-file>
 		<source-file src="src/android/LocationPlugin.java" target-dir="src/com/gperaltap/locationplugin/LocationPlugin" />
 		<framework src="build-extras.gradle" custom="true" type="gradleReference" />
