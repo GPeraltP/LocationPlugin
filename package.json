@@ -1,0 +1,25 @@
+{
+  "name": "com.gperaltap.locationplugin",
+  "version": "0.0.1",
+  "description": "Plugin to get Location using Google Services",
+  "cordova": {
+    "id": "com.gperaltap.locationplugin",
+    "platforms": [
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GPeraltP/LocationPlugin.git"
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "author": "Gerson Peralta Pairasaman",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GPeraltP/LocationPlugin/issues"
+  },
+  "homepage": "https://github.com/GPeraltP/LocationPlugin#readme"
+}
