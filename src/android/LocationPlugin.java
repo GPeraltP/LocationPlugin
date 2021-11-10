@@ -36,10 +36,12 @@ public class LocationPlugin extends CordovaPlugin {
     public static final int REQUEST_CHECK_SETTING = 1001; //Request code for GPS Dialog
     private CallbackContext newCallbackContext = null;
 
+
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         newCallbackContext = callbackContext;
         if (action.equals("enableGPS")) {
+            cordova.setActivityResultCallback (this); //neccesary to call onActivityResult
             this.enableGPS();
             return true;
         }
@@ -55,11 +57,11 @@ public class LocationPlugin extends CordovaPlugin {
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
         builder.setAlwaysShow(true);
 
-        Task<LocationSettingsResponse> result = LocationServices.getSettingsClient(getApplicationContext()).checkLocationSettings(builder.build());
+        Task<LocationSettingsResponse> result = LocationServices.getSettingsClient(cordova.getActivity().getApplicationContext()).checkLocationSettings(builder.build());
 
         result.addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
             @Override
-            public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
+            public void onComplete( Task<LocationSettingsResponse> task) {
                 try {
                     //When GPS is Active run this code
                     LocationSettingsResponse response = task.getResult(ApiException.class);
@@ -84,31 +86,25 @@ public class LocationPlugin extends CordovaPlugin {
 
             }
         });
-        
-        
-        if (message != null && message.length() > 0) {
-            callbackContext.success(message);
-        } else {
-            callbackContext.error("Expected one non-empty string argument.");
-        }
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //Check Answer Google GPS Dialog
+        PluginResult pluginResult;
         if (requestCode == REQUEST_CHECK_SETTING){
             switch (resultCode){
 
                 case Activity.RESULT_OK:
                     Toast.makeText(cordova.getActivity(),"GPS is Turned on", Toast.LENGTH_SHORT).show();
-                    PluginResult pluginResult = new PluginResult(PluginResult.Status.OK,"2");
+                    pluginResult = new PluginResult(PluginResult.Status.OK,"2");
                     newCallbackContext.sendPluginResult(pluginResult);
                 break;
 
                 case Activity.RESULT_CANCELED:
                     Toast.makeText(cordova.getActivity(), "GPS is required to be turned", Toast.LENGTH_SHORT).show();
-                    PluginResult pluginResult = new PluginResult(PluginResult.Status.ERROR,"0");
+                    pluginResult = new PluginResult(PluginResult.Status.ERROR,"0");
                     newCallbackContext.sendPluginResult(pluginResult);
                 break;
             }
